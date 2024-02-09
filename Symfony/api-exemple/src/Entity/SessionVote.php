@@ -4,65 +4,79 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SessionVoteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: SessionVoteRepository::class)]
-#[ApiResource]
+#[ApiResource  (
+    operations: [
+        new Get(),
+        new GetCollection()
+        ])
+]
 class SessionVote
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idSession = null;
-
-    #[ORM\Column(length: 25)]
-    private ?string $statusSession = null;
+    private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $nbTour = null;
+    private ?int $nb_tour = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessionVotes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $idSessionVote = null;
+    #[ORM\Column]
+    private ?int $nbRepresentants = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $status = null;
+
 
     public function getId(): ?int
     {
-        return $this->idSession;
-    }
-
-    public function getStatusSession(): ?string
-    {
-        return $this->statusSession;
-    }
-
-    public function setStatusSession(string $statusSession): static
-    {
-        $this->statusSession = $statusSession;
-
-        return $this;
+        return $this->id;
     }
 
     public function getNbTour(): ?int
     {
-        return $this->nbTour;
+        return $this->nb_tour;
     }
 
-    public function setNbTour(int $nbTour): static
+    public function setNbTour(int $nb_tour): static
     {
-        $this->nbTour = $nbTour;
+        $this->nb_tour = $nb_tour;
 
         return $this;
     }
 
-    public function getIdSessionVote(): ?Candidat
+    public function getNbRepresentants(): ?int
     {
-        return $this->idSessionVote;
+        return $this->nbRepresentants;
     }
 
-    public function setIdSessionVote(?Candidat $idSessionVote): static
+    public function setNbRepresentants(int $nbRepresentants): static
     {
-        $this->idSessionVote = $idSessionVote;
+        $this->nbRepresentants = $nbRepresentants;
 
         return $this;
     }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+
+
+
+
 }

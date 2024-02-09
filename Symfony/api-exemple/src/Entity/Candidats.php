@@ -3,39 +3,46 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\CandidatRepository;
+use App\Repository\CandidatsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
-#[ORM\Entity(repositoryClass: CandidatRepository::class)]
-#[ApiResource]
-class Candidat
+#[ORM\Entity(repositoryClass: CandidatsRepository::class)]
+#[ApiResource (
+    operations: [
+        new Get(),
+        new GetCollection()
+        ])
+    ]
+class Candidats
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $nomCandidat = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $prenomCandidat = null;
 
     #[ORM\Column(length: 255)]
     private ?string $sloganCandidat = null;
 
-    #[ORM\Column]
-    private ?int $idCandidat = null;
+    #[ORM\OneToMany(targetEntity: SessionCandidats::class, mappedBy: 'candidat', orphanRemoval: true)]
+    private Collection $sessionCandidats;
 
-    #[ORM\OneToMany(targetEntity: SessionVote::class, mappedBy: 'idSessionVote')]
-    private Collection $sessionVotes;
+  
 
     public function __construct()
     {
-        $this->sessionVotes = new ArrayCollection();
+        $this->sessionCandidats = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -78,45 +85,36 @@ class Candidat
         return $this;
     }
 
-    public function getIdCandidat(): ?int
-    {
-        return $this->idCandidat;
-    }
-
-    public function setIdCandidat(int $idCandidat): static
-    {
-        $this->idCandidat = $idCandidat;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, SessionVote>
+     * @return Collection<int, SessionCandidats>
      */
-    public function getSessionVotes(): Collection
+    public function getSessionCandidats(): Collection
     {
-        return $this->sessionVotes;
+        return $this->sessionCandidats;
     }
 
-    public function addSessionVote(SessionVote $sessionVote): static
+    public function addSessionCandidat(SessionCandidats $sessionCandidat): static
     {
-        if (!$this->sessionVotes->contains($sessionVote)) {
-            $this->sessionVotes->add($sessionVote);
-            $sessionVote->setIdSessionVote($this);
+        if (!$this->sessionCandidats->contains($sessionCandidat)) {
+            $this->sessionCandidats->add($sessionCandidat);
+            $sessionCandidat->setCandidat($this);
         }
 
         return $this;
     }
 
-    public function removeSessionVote(SessionVote $sessionVote): static
+    public function removeSessionCandidat(SessionCandidats $sessionCandidat): static
     {
-        if ($this->sessionVotes->removeElement($sessionVote)) {
+        if ($this->sessionCandidats->removeElement($sessionCandidat)) {
             // set the owning side to null (unless already changed)
-            if ($sessionVote->getIdSessionVote() === $this) {
-                $sessionVote->setIdSessionVote(null);
+            if ($sessionCandidat->getCandidat() === $this) {
+                $sessionCandidat->setCandidat(null);
             }
         }
 
         return $this;
     }
+
+
+
 }
