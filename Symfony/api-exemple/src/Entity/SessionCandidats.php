@@ -11,8 +11,8 @@ use ApiPlatform\Metadata\Get;
 #[ORM\Entity(repositoryClass: SessionCandidatsRepository::class)]
 #[ApiResource (
     operations: [
-        new Get(),
-        new GetCollection()
+        new Get(uriTemplate:"/session_candidat/{id}"),
+        new GetCollection(uriTemplate:"/session_candidats")
         ])
         ]
 class SessionCandidats

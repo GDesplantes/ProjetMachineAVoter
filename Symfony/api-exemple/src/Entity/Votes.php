@@ -12,7 +12,7 @@ use ApiPlatform\Metadata\Post;
 #[ORM\Entity(repositoryClass: VotesRepository::class)]
 #[ApiResource (
     operations: [
-        new Post(),
+        new Post(uriTemplate:"/vote"),
         new GetCollection()
         ])
 ]

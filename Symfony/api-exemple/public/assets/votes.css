@@ -81,4 +81,9 @@ h2{
     text-shadow: rgb(0, 0, 0) 0px 0px 1px ;
     text-align: center;
     width: 100%;
+    
+}
+#photos img{
+    height: 200px;
+    transform: rotateY(180deg); 
 }

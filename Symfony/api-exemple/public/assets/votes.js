@@ -1,6 +1,6 @@
 import { JsonDb } from "./Db.js";
 import {Candidats} from './Candidats.js';
-const candidatsUrl = './assets/candidats/candidats.json';
+const candidatsUrl = 'http://localhost:3000/api/candidats';
 
 const app = {
     data() {

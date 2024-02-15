@@ -13,8 +13,8 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(repositoryClass: CandidatsRepository::class)]
 #[ApiResource (
     operations: [
-        new Get(),
-        new GetCollection()
+        new Get(uriTemplate:"/candidat/{id}"),
+        new GetCollection(uriTemplate:"/candidats")
         ])
     ]
 class Candidats

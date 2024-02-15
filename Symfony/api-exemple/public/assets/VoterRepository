@@ -1,0 +1,29 @@
+
+class VoterRepository 
+{
+    /** @var {String} apiBaseUrl URL de base de l'api  */
+    static apiBaseUrl = 'http://localhost:3000/api';
+
+    /**
+     * Emet une requête vers l'api et retourne la réponse correspondante
+     * @param {String} chemin Chemin vers la ressource 
+     * @param {Object} options options pour la requête
+     * @returns {Array|Object} La réponse JSON formattée en tableau ou objet
+     */
+    static async fetchUrl(chemin, options = {}) 
+    {
+        // Concaténation de l'url de base avec le chemin fourni en argument
+        let url = VotationsRepository.apiBaseUrl + chemin;
+
+        // Exécution de la requête vers l'API
+        let response = await fetch(url, options);
+
+        // Formattage de la réponse en array ou objet exploitable en JS
+        let json = await response.json();
+
+        console.log(url, json);
+
+        return json;
+    }
+}
+export { VoterRepository}
